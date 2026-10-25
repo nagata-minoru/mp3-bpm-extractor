@@ -1,5 +1,6 @@
 import sys
 import librosa
+import numpy as np
 
 def extract_bpm(filename: str) -> float:
   print(f"ファイルを読み込み中: {filename}")
@@ -10,7 +11,8 @@ def extract_bpm(filename: str) -> float:
     sys.exit(1)
 
   tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
-  return float(tempo)
+  # tempo は要素 1 つの配列で返るので、取り出してから float にする
+  return float(np.asarray(tempo).item())
 
 if __name__ == "__main__":
   if len(sys.argv) < 2:
